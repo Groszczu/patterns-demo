@@ -1,23 +1,10 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import StarWarsCharacterCard from './StarWarsCharacterCard';
+import StarWarsCharacterList from './StarWarsCharacterList';
 
 export default function Before() {
   return (
-    <View style={styles.container}>
-      {[1, 2, 3].map((id) => (
-        <StarWarsCharacterCard key={id} characterId={id} />
-      ))}
-    </View>
+    <StarWarsCharacterList
+      charactersIds={[...Array.from({ length: 10 }, (_, i) => i + 1)]}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: '100%',
-    backgroundColor: '#42c5f5',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
