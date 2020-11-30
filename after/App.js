@@ -1,33 +1,16 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text } from 'react-native';
-import { useStarWarsCharacters } from '../hooks/useStarWarsCharacters';
-import StarWarsCharacterCard from './StarWarsCharacterCard';
+import { StyleSheet, View } from 'react-native';
+import InfoRow from '../common/InfoRow';
+import connect from './connect';
 
-export default function After() {
-  const characters = useStarWarsCharacters(1);
-
-  if (characters === null) {
-    return <Text>Loading...</Text>;
-  }
-
-  if (characters.error) {
-    return <Text>Error occurred...</Text>;
-  }
-
-  const { results } = characters;
-  const numberOfPeopleWithBrownHair = results.filter(
-    (character) => character.hair_color === 'brown'
-  ).length;
+function Before({ user }) {
+  const { firstName, lastName, age } = user;
 
   return (
-    <>
-      <ScrollView style={styles.container}>
-        {characters.results.map((character, i) => (
-          <StarWarsCharacterCard key={i} character={character} />
-        ))}
-      </ScrollView>
-      <Text>{`There is ${numberOfPeopleWithBrownHair} people with brown hair`}</Text>
-    </>
+    <View style={styles.container}>
+      <InfoRow name={'name'} value={`${firstName} ${lastName}`} />
+      <InfoRow name={'age'} value={age} />
+    </View>
   );
 }
 
@@ -36,5 +19,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     backgroundColor: '#42c5f5',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
+
+const connectState = (state) => ({
+  user: state.find((u) => u.id === 1),
+});
+
+export default connect(connectState)(Before);

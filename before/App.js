@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import StarWarsCharacterCard from './StarWarsCharacterCard';
+import InfoRow from '../common/InfoRow';
+import { UserService } from '../services';
 
 export default function Before() {
+  const { firstName, lastName, age } = UserService.getUsers().find(
+    (user) => user.id === 1
+  );
+
   return (
     <View style={styles.container}>
-      {[1, 2, 3].map((id) => (
-        <StarWarsCharacterCard key={id} characterId={id} />
-      ))}
+      <InfoRow name={'name'} value={`${firstName} ${lastName}`} />
+      <InfoRow name={'age'} value={age} />
     </View>
   );
 }
