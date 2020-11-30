@@ -1,31 +1,48 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import InfoRow from '../common/InfoRow';
-import connect from './connect';
+import React, { useState } from 'react';
+import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import ScreenLayout from './ScreenLayout';
 
-function Before({ user }) {
-  const { firstName, lastName, age } = user;
+export default function Before() {
+  const [isHomeScreen, setIsHomeScreen] = useState(true);
+
+  const toggleScreen = () => setIsHomeScreen(!isHomeScreen);
 
   return (
-    <View style={styles.container}>
-      <InfoRow name={'name'} value={`${firstName} ${lastName}`} />
-      <InfoRow name={'age'} value={age} />
-    </View>
+    <>
+      {isHomeScreen ? <HomeScreen /> : <DetailsScreen />}
+      <TouchableOpacity style={styles.switchButton} onPress={toggleScreen} />
+    </>
+  );
+}
+
+function HomeScreen() {
+  return (
+    <ScreenLayout headerTitle={'Home'}>
+      <Text>Home Screen</Text>
+    </ScreenLayout>
+  );
+}
+
+function DetailsScreen() {
+  return (
+    <ScreenLayout headerTitle={'Details'}>
+      <Text>Details Screen</Text>
+      <View style={styles.circle} />
+    </ScreenLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  circle: {
+    backgroundColor: 'red',
+    width: 100,
+    aspectRatio: 1,
+    borderRadius: 50,
+  },
+
+  switchButton: {
     width: '100%',
-    backgroundColor: '#42c5f5',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: 50,
+    backgroundColor: 'red',
   },
 });
-
-const connectState = (state) => ({
-  user: state.find((u) => u.id === 1),
-});
-
-export default connect(connectState)(Before);
