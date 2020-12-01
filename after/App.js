@@ -10,24 +10,45 @@ export default function Before() {
   return (
     <>
       {isHomeScreen ? <HomeScreen /> : <DetailsScreen />}
-      <TouchableOpacity style={styles.switchButton} onPress={toggleScreen} />
+      <TouchableOpacity style={styles.switchButton} onPress={toggleScreen}>
+        <Text>Change screen</Text>
+      </TouchableOpacity>
     </>
   );
 }
 
 function HomeScreen() {
+  const renderHomeScreenContent = (pressCount) => {
+    const pressesArray = Array.from(
+      { length: Math.min(pressCount, 15) },
+      () => null
+    );
+
+    return (
+      <>
+        <Text>Home Screen</Text>
+        {pressesArray.map((_, i) => (
+          <Text key={i}>Toolbar pressed</Text>
+        ))}
+      </>
+    );
+  };
+
   return (
-    <ScreenLayout headerTitle={'Home'}>
-      <Text>Home Screen</Text>
-    </ScreenLayout>
+    <ScreenLayout headerTitle={'Home'}>{renderHomeScreenContent}</ScreenLayout>
   );
 }
 
 function DetailsScreen() {
   return (
     <ScreenLayout headerTitle={'Details'}>
-      <Text>Details Screen</Text>
-      <View style={styles.circle} />
+      {(pressCount) => (
+        <>
+          <Text>Details Screen</Text>
+          <View style={styles.circle} />
+          <Text>Toolbar pressed {pressCount} on Details screen</Text>
+        </>
+      )}
     </ScreenLayout>
   );
 }
@@ -44,5 +65,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

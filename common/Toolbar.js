@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-const Toolbar = ({ title }) => {
+const Toolbar = ({ title, onPress }) => {
   return (
-    <View style={styles.toolbar}>
+    <TouchableOpacity onPress={onPress} style={styles.toolbar}>
       <Text>{title}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
